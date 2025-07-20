@@ -6,12 +6,16 @@ const GameBoard = (function(){
 
     let player1;
     let player2;
+    let player1Name;
+    let player2Name;
 
     let i = 0;
 
-    function playerChoice(choice1,choice2){
+    function playerChoice(p1name,p2Name,choice1,choice2){
         player1 = choice1;
         player2 = choice2;
+        player1Name = p1name;
+        player2Name = p2Name;
     }
 
 
@@ -127,3 +131,36 @@ const GameBoard = (function(){
 
     return{playerChoice,takesCordinate,checkWinner,reset}
 })();
+
+
+function showTheStartbox(){
+    let box = document.querySelector(".start")
+    box.showModal();
+
+    let boxSubmit = document.querySelector(".start form");
+    boxSubmit.addEventListener("submit",fillThedetail);
+
+}
+
+function fillThedetail(){
+    let player1Name =document.querySelector(".start>form>.left>#Player1");
+    let player2Name =document.querySelector(".start>form>.right>#Player2");
+    let symbol1 = document.querySelectorAll('.start .left input[type ="radio"]');
+    let symbol2 = document.querySelectorAll('.start .right input[type ="radio"]');
+    let x,y;
+    symbol1.forEach(function(item){
+        if(item.checked){
+            x = item.value;
+        }
+    });
+    symbol2.forEach(function(item){
+        if(item.checked){
+            y = item.value;
+        }
+    });
+    GameBoard.playerChoice(player1Name.value,player2Name.value,x,y);
+
+}
+
+
+showTheStartbox();

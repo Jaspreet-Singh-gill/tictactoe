@@ -1,0 +1,116 @@
+img{
+    width: 30px;
+    height: auto;
+}
+
+body{
+    margin:0px;
+    padding: 0px;
+
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100vw;
+    height: 100vh;
+
+}
+
+.header{
+    width: 100%;
+    height: 15%;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+
+}
+
+.player{
+
+    width: 100%;
+    height: 10%;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+
+
+}
+
+.battleGrid{
+    width: 40%;
+    height: 60%;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(3,1fr);
+    gap:10px;
+}
+
+
+
+/* start dialog box */
+.start:open>form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:10px;
+
+}
+
+.start:open>form img,
+.tie:open>form img{
+    width: 150px;
+    height: auto;
+    justify-self: center;
+    
+}
+
+.start:open>form>.left,
+.start:open>form>.right,
+.tie:open>form>.left,
+.tie:open>form>.right{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap:10px;
+    
+
+}
+.start:open>form>#startTheGame,
+.tie:open>form>#rematch{
+    grid-column: 1 / -1;
+    align-self: center;
+    justify-self: center;
+
+}
+
+
+/* tie dialog box */
+
+.tie:open>form{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+}
+
+.tie .message{
+    align-self: center;
+    justify-self: center;
+}
+
+
+.victory:open{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.victory:open img{
+    width: 250px;
+    height: auto;
+}
+
+.victory:open .restartButton{
+    grid-column: 1/-1;
+    justify-self: center;
+}
+
+.victory:open .left{
+    align-self: center;
+}
