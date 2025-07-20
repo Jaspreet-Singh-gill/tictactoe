@@ -61,6 +61,7 @@ const GameBoard = (function(){
             }
 
             i++;
+            return "";
 
     }
 

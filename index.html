@@ -7,6 +7,165 @@
     <script src = "./script.js" defer></script>
 </head>
 <body>
+
+    <div class="container">
+        <div class="header">
+            <div class="linkdin">
+                <img src="" alt="">
+                Linkdin
+            </div>
+
+            <div class="title">
+                Tic Tac Toe
+            </div>
+
+            <div class="github">
+                <img src="" alt="">
+                Github
+            </div>
+        </div>
+
+        <div class="player">
+            <div class="left">
+                <img src="" alt="">
+                <div class="name">
+                    Player1
+                </div>
+            </div>
+
+            <div class="right">
+                <img src="" alt="">
+                <div class="name">
+                    Player2
+                </div>
+
+            </div>
+        </div>
+
+        <div class="battleGrid">
+            <button class="button1"></button>
+            <button class="button2"></button>
+            <button class="button3"></button>
+            
+            <button class="button4"></button>
+            <button class="button5"></button>
+            <button class="button6"></button>
+            <button class="button7"></button>
+            
+            <button class="button8"></button>
+            <button class="button9"></button>
+        </div>
+
+    </div>
+
+
+    <dialog class="start">
+        <form method="dialog">
+            <div class="left">
+                <img src="" alt="">
+                <label for="Player1">Player 1</label>
+                <input type="text" name="Player1" id="Player1" required>
+                <div>Symbol</div>
+
+                <div class="selector">
+                    <label for="x">x</label>
+                    <input type="radio" name = "symbol1" id = "x" checked>
+                    <label for="0">0</label>
+                    <input type="radio" name = "symbol1" id = "0">
+                </div>
+            </div>
+
+
+            <div class="right">
+                <img src="" alt="">
+                <label for="Player2">Player 2</label>
+                <input type="text" name="Player2" id="Player2" required>
+                <div>Symbol</div>
+
+                <div class="selector">
+                    <label for="x">x</label>
+                    <input type="radio" name = "symbol2" id = "x">
+                    <label for="0">0</label>
+                    <input type="radio" name = "symbol2" id = "0" checked>
+                </div>
+            </div>
+
+
+            <button formmethod="dialog" id ="startTheGame">
+                start
+            </button>
+
+        </form>
+    </dialog>
+
+
+    <dialog class = "victory">
+        <div class="image">
+            <img src="" alt="">
+        </div>
+        <div class="player">
+            Player1
+        </div>
+        <div class="playerName">
+            Retrieve
+        </div>
+        <div class="message">
+            You won the match
+        </div>
+
+        <div class="restartButton">
+            <button>
+                Restart
+            </button>
+        </div>
+    </dialog>
+
+
+
+    <dialog class="tie" open>
+        <form method="dialog">
+            <div class="left">
+                <img src="" alt="">
+                <label for="Player1">Player 1</label>
+                <input type="text" name="Player1" id="Player1" required>
+                <div>Symbol</div>
+
+                <div class="selector">
+                    <label for="x">x</label>
+                    <input type="radio" name = "symbol1" id = "x" checked>
+                    <label for="0">0</label>
+                    <input type="radio" name = "symbol1" id = "0">
+                </div>
+            </div>
+
+            <div class = "message">
+                tie
+            </div>
+
+
+            <div class="right">
+                <img src="" alt="">
+                <label for="Player2">Player 2</label>
+                <input type="text" name="Player2" id="Player2" required>
+                <div>Symbol</div>
+
+                <div class="selector">
+                    <label for="x">x</label>
+                    <input type="radio" name = "symbol2" id = "x">
+                    <label for="0">0</label>
+                    <input type="radio" name = "symbol2" id = "0" checked>
+                </div>
+            </div>
+
+
+            <button formmethod="dialog" id ="startTheGame">
+                Rematch
+            </button>
+
+        </form>
+    </dialog>
+
+
     
 </body>
 </html>
