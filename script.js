@@ -1,8 +1,8 @@
 const GameBoard = (function(){
     let gameBoard = new Array(9);
-    for(let i = 0; i< 9;i++){
-        gameBoard[i] = " ";
-    }
+    // for(let i = 0; i< 9;i++){
+    //     gameBoard[i] = " ";
+    // }
 
     let player1;
     let player2;
@@ -10,6 +10,14 @@ const GameBoard = (function(){
     let player2Name;
 
     let i = 0;
+
+    function returnValue(index){
+        return gameBoard[index];
+    }
+
+    function getPlayerName(){
+        return {"one":player1Name,"two":player2Name};
+    }
 
     function playerChoice(p1name,p2Name,choice1,choice2){
         player1 = choice1;
@@ -48,11 +56,11 @@ const GameBoard = (function(){
 
             if(message != "none"){
                 if(temp ===player1){
-                    return(`player 1 wins the game with ${message}`);
+                    alert(`player 1 wins the game with ${message}`);
 
                 }
                 else{
-                    return(`player 2 wins the game with ${message}`);
+                    alert(`player 2 wins the game with ${message}`);
 
                 }
 
@@ -129,7 +137,7 @@ const GameBoard = (function(){
 
     }
 
-    return{playerChoice,takesCordinate,checkWinner,reset}
+    return{playerChoice,takesCordinate,checkWinner,reset,getPlayerName,returnValue}
 })();
 
 
@@ -141,6 +149,32 @@ function showTheStartbox(){
     boxSubmit.addEventListener("submit",fillThedetail);
 
 }
+
+
+function gamePlay(){
+    let left = document.querySelector(".player>.left>span");
+    let right = document.querySelector(".player>.right>span");
+    let player = GameBoard.getPlayerName();
+    left.textContent = player.one;
+    right.textContent = player.two;
+    console.log(left.textContent);
+    activeButtons();
+}
+
+
+
+function activeButtons(){
+    let buttons = document.querySelectorAll(".battleGrid>button");
+    buttons.forEach(function(item,index){
+        item.addEventListener("click",function(){
+            GameBoard.takesCordinate(Number.parseInt(item.value),index%3);
+            item.textContent = GameBoard.returnValue(index);
+            console.log(index);
+        });
+    });
+}
+
+
 
 function fillThedetail(){
     let player1Name =document.querySelector(".start>form>.left>#Player1");
@@ -159,6 +193,7 @@ function fillThedetail(){
         }
     });
     GameBoard.playerChoice(player1Name.value,player2Name.value,x,y);
+    gamePlay();
 
 }
 
