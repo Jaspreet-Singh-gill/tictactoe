@@ -1,104 +1,128 @@
-let gameBoard = new Array(9," ");
+const GameBoard = (function(){
+    let gameBoard = new Array(9);
+    for(let i = 0; i< 9;i++){
+        gameBoard[i] = " ";
+    }
 
-let player1 ="X";
-let player2 = "Y";
+    let player1;
+    let player2;
 
+    let i = 0;
 
-function takesCordinate(){
-    let x,y;
-    let temp;
-
-    for(let i = 0; i < 9 ;i++){
-        if(i%2==0){
-            console.log("Enter your coordinate player 1:");
-            temp = player1;
-        }
-        else{
-            console.log("Enter your coordinate player 2:");
-            temp = player2;
-
-        }
-        x = Number.parseInt(prompt("Enter the X co0rdinate"));
-        y = Number.parseInt(prompt("Enter the Y coordinate"));
-        gameBoard[x*3 + y] = temp;
-
-        let message = checkWinner(temp);
-        let str = "";
-
-        for(let j = 0; j < 3;j++){
-            for(let k =0; k<3;k++){
-                str += (gameBoard[j*3+k]);
-            }
-            str += "\n";
-
-        }
-        alert(str);
+    function playerChoice(choice1,choice2){
+        player1 = choice1;
+        player2 = choice2;
+    }
 
 
-        if(message != ""){
-            if(temp ===player1){
-                alert("player 1 wins the game");
-                alert(`with ${message}`);
+    function takesCordinate(x,y){
+            let temp;
 
+            if(i%2==0){
+                console.log("Enter your coordinate player 1:");
+                temp = player1;
             }
             else{
-                alert("player 2 wins the game");
-                alert(`with ${message}`);
+                console.log("Enter your coordinate player 2:");
+                temp = player2;
 
             }
-            break;
+            gameBoard[x*3 + y] = temp;
+
+            let message = checkWinner(temp);
+            let str = "";
+
+            for(let j = 0; j < 3;j++){
+                for(let k =0; k<3;k++){
+                    str += (gameBoard[j*3+k]);
+                }
+                str += "\n";
+
+            }
+            alert(str);
+
+
+            if(message != "none"){
+                if(temp ===player1){
+                    return(`player 1 wins the game with ${message}`);
+
+                }
+                else{
+                    return(`player 2 wins the game with ${message}`);
+
+                }
+
+
+                
+            }
+
+            if(i==9){
+                    return "Tie";
+            }
+
+            i++;
+
+    }
+
+
+    function checkWinner(char){
+        //Row wise check
+        for(let i =0; i< 3;i++){
+            let countRow = 0;
+            let countCol = 0;
+            for(let j = 0; j <3;j++){
+                if(gameBoard[i*3 +j] == char){
+                    countRow++;
+                }
+
+                if(countRow == 3){
+                    return "3 in a row";
+                }
+
+                if(gameBoard[j*3 +i] == char){
+                    countCol++;
+                }
+
+                if(countCol == 3){
+                    return "3 in a column";
+                }
+
+
+            }
         }
-    }
-}
 
-
-function checkWinner(char){
-    //Row wise check
-    for(let i =0; i< 3;i++){
-        let countRow = 0;
-        let countCol = 0;
-        for(let j = 0; j <3;j++){
-            if(gameBoard[i*3 +j] == char){
-                countRow++;
+        let countL = 0;
+        let countR = 0;
+        for(let i = 0; i <3;i++){
+            
+            if(gameBoard[i*3+i] == char){
+                countL++;
             }
-
-            if(countRow == 3){
-                return "3 in a row";
+            if(gameBoard[(2-i)*3 +i] == char){
+                countR++;
             }
-
-            if(gameBoard[j*3 +i] == char){
-                countCol++;
-            }
-
-            if(countCol == 3){
-                return "3 in a column";
-            }
-
-
         }
-    }
 
-    let countL = 0;
-    let countR = 0;
-    for(let i = 0; i <3;i++){
-        
-        if(gameBoard[i*3+i] == char){
-            countL++;
+        if(countL == 3){
+            return "left diagonal";
         }
-        if(gameBoard[(2-i)*3 +i] == char){
-            countR++;
+        else if(countR ==3){
+            return "right diagonal";
         }
+
+        return "none";
     }
 
-    if(countL == 3){
-        return "left diagonal";
+    function reset(){
+        for(let i = 0; i< 9;i++){
+            gameBoard[i] = " ";
+        }
+
+        i = 0;
+        player1 = undefined;
+        player2 = undefined;
+
     }
-    else if(countR ==3){
-        return "right diagonal";
-    }
 
-    return "";
-}
-
-
-takesCordinate();
+    return{playerChoice,takesCordinate,checkWinner,reset}
+})();
