@@ -1,13 +1,17 @@
 const GameBoard = (function(){
     let gameBoard = new Array(9);
-    // for(let i = 0; i< 9;i++){
-    //     gameBoard[i] = " ";
-    // }
+    for(let i = 0; i< 9;i++){
+        gameBoard[i] = " ";
+    }
 
     let player1;
     let player2;
     let player1Name;
     let player2Name;
+    let result;
+    function getTheResult(){
+        return result;
+    }
 
     let i = 0;
 
@@ -31,49 +35,55 @@ const GameBoard = (function(){
             let temp;
 
             if(i%2==0){
-                console.log("Enter your coordinate player 1:");
+                // console.log("Enter your coordinate player 1:");
                 temp = player1;
             }
             else{
-                console.log("Enter your coordinate player 2:");
+                // console.log("Enter your coordinate player 2:");
                 temp = player2;
 
             }
             gameBoard[x*3 + y] = temp;
 
             let message = checkWinner(temp);
-            let str = "";
+            // let str = "";
 
-            for(let j = 0; j < 3;j++){
-                for(let k =0; k<3;k++){
-                    str += (gameBoard[j*3+k]);
-                }
-                str += "\n";
+            // for(let j = 0; j < 3;j++){
+            //     for(let k =0; k<3;k++){
+            //         str += (gameBoard[j*3+k]);
+            //     }
+            //     str += "\n";
 
-            }
-            alert(str);
+            // }
+            // alert(str);
 
 
             if(message != "none"){
                 if(temp ===player1){
-                    alert(`player 1 wins the game with ${message}`);
+                    result = {"won":"player 1","message" :`you won the game with ${message}`,
+                                "name":player1Name};
+                    return;
 
                 }
                 else{
-                    alert(`player 2 wins the game with ${message}`);
+                    result = {"won":"player 2","message" :`you won the game with ${message}`,
+                                "name":player2Name};
+                    return;
 
                 }
 
 
                 
             }
+            i++;
 
             if(i==9){
-                    return "Tie";
+                    result = "Tie";
+                    return;
             }
 
-            i++;
-            return "";
+            
+            result = "";
 
     }
 
@@ -128,20 +138,30 @@ const GameBoard = (function(){
 
     function reset(){
         for(let i = 0; i< 9;i++){
-            gameBoard[i] = " ";
+            gameBoard[i] = "";
         }
 
         i = 0;
         player1 = undefined;
         player2 = undefined;
+        result = "";
+        player1Name = "";
+        player2Name = "";
+
 
     }
 
-    return{playerChoice,takesCordinate,checkWinner,reset,getPlayerName,returnValue}
+    return{playerChoice,takesCordinate,checkWinner,reset,getPlayerName,returnValue,getTheResult}
 })();
 
-
+let buttons = document.querySelectorAll(".battleGrid>button");
 function showTheStartbox(){
+  
+    buttons.forEach(function(item,index){
+        item.textContent = "";
+    });
+    GameBoard.reset()
+
     let box = document.querySelector(".start")
     box.showModal();
 
@@ -158,29 +178,89 @@ function gamePlay(){
     left.textContent = player.one;
     right.textContent = player.two;
     console.log(left.textContent);
-    activeButtons();
+}
+
+
+function showTieBox(){
+    let tie = document.querySelector(".tie");
+    tie.showModal();
+    let button = tie.querySelector("button");
+    button.addEventListener("click",function(){
+    tie.close();
+    buttons.forEach(function(item,index){
+        item.textContent = "";
+    });
+    GameBoard.reset();
+    let player1Name =document.querySelector(`.tie>form>.left>#Player1`);
+    let player2Name =document.querySelector(`.tie>form>.right>#Player2`);
+    let symbol1 = document.querySelectorAll(`.tie .left>.selector input[type ="radio"]`);
+    let symbol2 = document.querySelectorAll(`.tie .right>.selector input[type ="radio"]`);
+    let x,y;
+    symbol1.forEach(function(item){
+        if(item.checked){
+            x = item.value;
+        }
+    });
+    symbol2.forEach(function(item){
+        if(item.checked){
+            y = item.value;
+        }
+    });
+    GameBoard.playerChoice(player1Name.value,player2Name.value,x,y);
+    gamePlay();
+
+
+
+
+    });
+}
+
+
+function showResultBox(val){
+    let victory = document.querySelector(".victory");
+    victory.showModal();
+    let player = victory.querySelector(".player");
+    let playerName = victory.querySelector(".playerName");
+    let message = victory.querySelector(".message");
+    player.textContent = val.won;
+    playerName.textContent = val.name;
+    message.textContent = val.message;
+    let button = victory.querySelector("button");
+    button.addEventListener("click",function(){
+        victory.close();
+        showTheStartbox();
+    });
+
 }
 
 
 
+
 function activeButtons(){
-    let buttons = document.querySelectorAll(".battleGrid>button");
+
     buttons.forEach(function(item,index){
         item.addEventListener("click",function(){
             GameBoard.takesCordinate(Number.parseInt(item.value),index%3);
             item.textContent = GameBoard.returnValue(index);
-            console.log(index);
+            if(GameBoard.getTheResult() === "Tie"){
+                showTieBox();
+            }
+            else if(GameBoard.getTheResult() != ""){
+                showResultBox(GameBoard.getTheResult());
+            }
         });
     });
 }
 
 
 
+
+
 function fillThedetail(){
-    let player1Name =document.querySelector(".start>form>.left>#Player1");
-    let player2Name =document.querySelector(".start>form>.right>#Player2");
-    let symbol1 = document.querySelectorAll('.start .left input[type ="radio"]');
-    let symbol2 = document.querySelectorAll('.start .right input[type ="radio"]');
+    let player1Name =document.querySelector(`.start>form>.left>#Player1`);
+    let player2Name =document.querySelector(`.start>form>.right>#Player2`);
+    let symbol1 = document.querySelectorAll(`.start .left input[type ="radio"]`);
+    let symbol2 = document.querySelectorAll(`.start .right input[type ="radio"]`);
     let x,y;
     symbol1.forEach(function(item){
         if(item.checked){
@@ -196,6 +276,8 @@ function fillThedetail(){
     gamePlay();
 
 }
+
+activeButtons();
 
 
 showTheStartbox();
