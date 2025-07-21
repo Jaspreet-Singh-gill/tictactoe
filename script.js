@@ -154,130 +154,289 @@ const GameBoard = (function(){
     return{playerChoice,takesCordinate,checkWinner,reset,getPlayerName,returnValue,getTheResult}
 })();
 
-let buttons = document.querySelectorAll(".battleGrid>button");
-function showTheStartbox(){
+
+
+const displayControler = (function(){
+    let buttons;
+    let left;
+    let right;
+    let victory;
+    let box;
+    let boxSubmit;
+
+    function init(){
+        buttons = document.querySelectorAll(".battleGrid>button");
+        left = document.querySelector(".player>.left>span");
+        right = document.querySelector(".player>.right>span");
+        victory = document.querySelector(".victory");
+        box = document.querySelector(".start");
+        boxSubmit = document.querySelector(".start form");
+        activeButtons();
+
+    }
+
+    init();
+
+
+
+    function gamePlay(){
+        let player = GameBoard.getPlayerName();
+        left.textContent = player.one;
+        right.textContent = player.two;
+        console.log(left.textContent);
+    }
+
+
+    function showTheStartbox(){
   
-    buttons.forEach(function(item,index){
-        item.textContent = "";
-    });
-    GameBoard.reset()
+        buttons.forEach(function(item,index){
+            item.textContent = "";
+            item.disabled =false;
+        });
+        GameBoard.reset()
 
-    let box = document.querySelector(".start")
-    box.showModal();
+        
+        box.showModal();
 
-    let boxSubmit = document.querySelector(".start form");
-    boxSubmit.addEventListener("submit",fillThedetail);
-
-}
-
-
-function gamePlay(){
-    let left = document.querySelector(".player>.left>span");
-    let right = document.querySelector(".player>.right>span");
-    let player = GameBoard.getPlayerName();
-    left.textContent = player.one;
-    right.textContent = player.two;
-    console.log(left.textContent);
-}
-
-
-function showTieBox(){
-    let tie = document.querySelector(".tie");
-    tie.showModal();
-    let button = tie.querySelector("button");
-    button.addEventListener("click",function(){
-    tie.close();
-    buttons.forEach(function(item,index){
-        item.textContent = "";
-    });
-    GameBoard.reset();
-    let player1Name =document.querySelector(`.tie>form>.left>#Player1`);
-    let player2Name =document.querySelector(`.tie>form>.right>#Player2`);
-    let symbol1 = document.querySelectorAll(`.tie .left>.selector input[type ="radio"]`);
-    let symbol2 = document.querySelectorAll(`.tie .right>.selector input[type ="radio"]`);
-    let x,y;
-    symbol1.forEach(function(item){
-        if(item.checked){
-            x = item.value;
-        }
-    });
-    symbol2.forEach(function(item){
-        if(item.checked){
-            y = item.value;
-        }
-    });
-    GameBoard.playerChoice(player1Name.value,player2Name.value,x,y);
-    gamePlay();
+        
+        boxSubmit.addEventListener("submit",fillThedetail);
+    }
 
 
 
 
-    });
-}
-
-
-function showResultBox(val){
-    let victory = document.querySelector(".victory");
-    victory.showModal();
-    let player = victory.querySelector(".player");
-    let playerName = victory.querySelector(".playerName");
-    let message = victory.querySelector(".message");
-    player.textContent = val.won;
-    playerName.textContent = val.name;
-    message.textContent = val.message;
-    let button = victory.querySelector("button");
-    button.addEventListener("click",function(){
-        victory.close();
-        showTheStartbox();
-    });
-
-}
-
-
-
-
-function activeButtons(){
-
-    buttons.forEach(function(item,index){
-        item.addEventListener("click",function(){
-            GameBoard.takesCordinate(Number.parseInt(item.value),index%3);
-            item.textContent = GameBoard.returnValue(index);
-            if(GameBoard.getTheResult() === "Tie"){
-                showTieBox();
-            }
-            else if(GameBoard.getTheResult() != ""){
-                showResultBox(GameBoard.getTheResult());
+    function showTieBox(){
+        let tie = document.querySelector(".tie");
+        tie.showModal();
+        let button = tie.querySelector("button");
+        button.addEventListener("click",function(){
+        tie.close();
+        buttons.forEach(function(item,index){
+            item.textContent = "";
+            item.disabled =false;
+        });
+        GameBoard.reset();
+        let player1Name =document.querySelector(`.tie>form>.left>#Player1`);
+        let player2Name =document.querySelector(`.tie>form>.right>#Player2`);
+        let symbol1 = document.querySelectorAll(`.tie .left>.selector input[type ="radio"]`);
+        let symbol2 = document.querySelectorAll(`.tie .right>.selector input[type ="radio"]`);
+        let x,y;
+        symbol1.forEach(function(item){
+            if(item.checked){
+                x = item.value;
             }
         });
-    });
-}
+        symbol2.forEach(function(item){
+            if(item.checked){
+                y = item.value;
+            }
+        });
+        GameBoard.playerChoice(player1Name.value,player2Name.value,x,y);
+        gamePlay();
+
+
+
+
+    });}
+
+
+
+    function showResultBox(val){
+        victory.showModal();
+        let player = victory.querySelector(".player");
+        let playerName = victory.querySelector(".playerName");
+        let message = victory.querySelector(".message");
+        player.textContent = val.won;
+        playerName.textContent = val.name;
+        message.textContent = val.message;
+        let button = victory.querySelector("button");
+        button.addEventListener("click",function(){
+            victory.close();
+            showTheStartbox();
+        });
+
+    }
+
+
+
+    function activeButtons(){
+
+        buttons.forEach(function(item,index){
+            item.addEventListener("click",function(){
+                GameBoard.takesCordinate(Number.parseInt(item.value),index%3);
+                item.textContent = GameBoard.returnValue(index);
+                item.disabled =true;
+                if(GameBoard.getTheResult() === "Tie"){
+                    showTieBox();
+                }
+                else if(GameBoard.getTheResult() != ""){
+                    showResultBox(GameBoard.getTheResult());
+                }
+            });
+        });
+    }
+
+
+
+    function fillThedetail(){
+        let player1Name =document.querySelector(`.start>form>.left>#Player1`);
+        let player2Name =document.querySelector(`.start>form>.right>#Player2`);
+        let symbol1 = document.querySelectorAll(`.start .left input[type ="radio"]`);
+        let symbol2 = document.querySelectorAll(`.start .right input[type ="radio"]`);
+        let x,y;
+        symbol1.forEach(function(item){
+            if(item.checked){
+                x = item.value;
+            }
+        });
+        symbol2.forEach(function(item){
+            if(item.checked){
+                y = item.value;
+            }
+        });
+        GameBoard.playerChoice(player1Name.value,player2Name.value,x,y);
+        gamePlay();
+
+    }
+
+
+    return {showTheStartbox};
+
+
+
+})();
+
+
+displayControler.showTheStartbox();
+
+
+// let buttons = document.querySelectorAll(".battleGrid>button");
+// function showTheStartbox(){
+  
+//     buttons.forEach(function(item,index){
+//         item.textContent = "";
+//     });
+//     GameBoard.reset()
+
+//     let box = document.querySelector(".start")
+//     box.showModal();
+
+//     let boxSubmit = document.querySelector(".start form");
+//     boxSubmit.addEventListener("submit",fillThedetail);
+
+// }
+
+
+// function gamePlay(){
+//     let left = document.querySelector(".player>.left>span");
+//     let right = document.querySelector(".player>.right>span");
+//     let player = GameBoard.getPlayerName();
+//     left.textContent = player.one;
+//     right.textContent = player.two;
+//     console.log(left.textContent);
+// }
+
+
+// function showTieBox(){
+//     let tie = document.querySelector(".tie");
+//     tie.showModal();
+//     let button = tie.querySelector("button");
+//     button.addEventListener("click",function(){
+//     tie.close();
+//     buttons.forEach(function(item,index){
+//         item.textContent = "";
+//     });
+//     GameBoard.reset();
+//     let player1Name =document.querySelector(`.tie>form>.left>#Player1`);
+//     let player2Name =document.querySelector(`.tie>form>.right>#Player2`);
+//     let symbol1 = document.querySelectorAll(`.tie .left>.selector input[type ="radio"]`);
+//     let symbol2 = document.querySelectorAll(`.tie .right>.selector input[type ="radio"]`);
+//     let x,y;
+//     symbol1.forEach(function(item){
+//         if(item.checked){
+//             x = item.value;
+//         }
+//     });
+//     symbol2.forEach(function(item){
+//         if(item.checked){
+//             y = item.value;
+//         }
+//     });
+//     GameBoard.playerChoice(player1Name.value,player2Name.value,x,y);
+//     gamePlay();
+
+
+
+
+//     });
+// }
 
 
 
 
 
-function fillThedetail(){
-    let player1Name =document.querySelector(`.start>form>.left>#Player1`);
-    let player2Name =document.querySelector(`.start>form>.right>#Player2`);
-    let symbol1 = document.querySelectorAll(`.start .left input[type ="radio"]`);
-    let symbol2 = document.querySelectorAll(`.start .right input[type ="radio"]`);
-    let x,y;
-    symbol1.forEach(function(item){
-        if(item.checked){
-            x = item.value;
-        }
-    });
-    symbol2.forEach(function(item){
-        if(item.checked){
-            y = item.value;
-        }
-    });
-    GameBoard.playerChoice(player1Name.value,player2Name.value,x,y);
-    gamePlay();
+// function showResultBox(val){
+//     let victory = document.querySelector(".victory");
+//     victory.showModal();
+//     let player = victory.querySelector(".player");
+//     let playerName = victory.querySelector(".playerName");
+//     let message = victory.querySelector(".message");
+//     player.textContent = val.won;
+//     playerName.textContent = val.name;
+//     message.textContent = val.message;
+//     let button = victory.querySelector("button");
+//     button.addEventListener("click",function(){
+//         victory.close();
+//         showTheStartbox();
+//     });
 
-}
-
-activeButtons();
+// }
 
 
-showTheStartbox();
+
+
+// function activeButtons(){
+
+//     buttons.forEach(function(item,index){
+//         item.addEventListener("click",function(){
+//             GameBoard.takesCordinate(Number.parseInt(item.value),index%3);
+//             item.textContent = GameBoard.returnValue(index);
+//             if(GameBoard.getTheResult() === "Tie"){
+//                 showTieBox();
+//             }
+//             else if(GameBoard.getTheResult() != ""){
+//                 showResultBox(GameBoard.getTheResult());
+//             }
+//         });
+//     });
+// }
+
+
+
+
+
+// function fillThedetail(){
+//     let player1Name =document.querySelector(`.start>form>.left>#Player1`);
+//     let player2Name =document.querySelector(`.start>form>.right>#Player2`);
+//     let symbol1 = document.querySelectorAll(`.start .left input[type ="radio"]`);
+//     let symbol2 = document.querySelectorAll(`.start .right input[type ="radio"]`);
+//     let x,y;
+//     symbol1.forEach(function(item){
+//         if(item.checked){
+//             x = item.value;
+//         }
+//     });
+//     symbol2.forEach(function(item){
+//         if(item.checked){
+//             y = item.value;
+//         }
+//     });
+//     GameBoard.playerChoice(player1Name.value,player2Name.value,x,y);
+//     gamePlay();
+
+// }
+
+// activeButtons();
+
+
+// showTheStartbox();
