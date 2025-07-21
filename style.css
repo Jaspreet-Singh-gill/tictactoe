@@ -83,7 +83,8 @@ body{
 
 .header,
 .player>.left,
-.player>.right{
+.player>.right,
+.dialog:open{
     box-shadow: 2px 3px 10px 1px gray;
 }
 
@@ -154,7 +155,9 @@ body{
 
 /* grid boxes */
 
-
+#dialogImage{
+    fill:var(--header-background-color);
+}
 .battleGrid{
     width: 40%;
     height: 60%;
@@ -174,6 +177,14 @@ body{
 
 
 
+dialog:open{
+    border:5px solid transparent;
+    border-radius: 20px;
+
+
+}
+
+
 
 
 /* start dialog box */
@@ -181,7 +192,22 @@ body{
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap:10px;
+    color:var(--header-background-color);
 
+}
+.start:open>form label,
+.tie:open>form label{
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.start:open input[type="text"],
+.tie:open input[type="text"]{
+    border:3px solid var(--header-background-color);
+    border-radius: 15px;
+    font-size: 1.2rem;
+    color: var(--header-background-color);
+    outline-color: transparent;
 }
 
 .start:open>form img,
@@ -191,6 +217,7 @@ body{
     justify-self: center;
     
 }
+
 
 .start:open>form>.left,
 .start:open>form>.right,
@@ -210,35 +237,77 @@ body{
 
 }
 
+.start:open button,
+.tie:open button,
+.victory:open button{
+    font-size: 1.8rem;
+    border:3px solid var(--header-background-color);
+    border-radius: 15px;
+    background-color: var(--header-background-color);
+    color:var(--header-text-color);
+    font-weight: bold;
+    padding: 0px 10px;
+
+    
+}
+
+
+.symbol{
+    font-size: 1.3rem;
+    font-weight: bold;
+}
 
 /* tie dialog box */
 
 .tie:open>form{
     display: grid;
     grid-template-columns: repeat(3,1fr);
+    color: var(--header-background-color);
 }
 
 .tie .message{
     align-self: center;
     justify-self: center;
+    font-size: calc(var(--header-logo-size)*1.5);
+    font-family: var(--font-logo);
+    color:var(--header-background-color);
 }
 
 
 .victory:open{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 300px 1fr;
+    color: var(--header-background-color);
 }
+
 
 .victory:open img{
-    width: 250px;
+    width: 100%;
     height: auto;
 }
-
 .victory:open .restartButton{
     grid-column: 1/-1;
     justify-self: center;
 }
 
+.victory .player{
+    font-size: var(--button-font-size);
+
+}
+
+.victory .playerName
+{
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.victory .message{
+    font-family: var(--font-logo);
+    font-size: 1.8;
+}
 .victory:open .left{
     align-self: center;
 }
+
+
+
