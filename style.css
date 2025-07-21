@@ -290,6 +290,11 @@ dialog:open{
     justify-self: center;
 }
 
+a{
+    text-decoration: none;
+    color: var(--header-text-color);
+}
+
 .victory .player{
     font-size: var(--button-font-size);
 
