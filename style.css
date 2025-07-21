@@ -1,3 +1,27 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Agbalumo&family=Cedarville+Cursive&family=Great+Vibes&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root{
+    --header-background-color: rgb(228, 21, 228);
+    --header-text-color:white;
+    --font-logo:"Agbalumo",sarif;
+    --rest-font:"Roboto",sarif;
+    --dialog-color-background: rgba(68, 67, 67, 0.566);
+    --player-box-color:purple;
+    --player-box-text-color:white;
+    --background-color:rgb(203, 203, 203);
+    --header-font-size:1.5rem;
+    --header-logo-size:4rem;
+    --player-font-size:1.5rem;
+    --rest-font-size:1rem;
+    --button-font-size:3rem;
+    --dialog-font-size-button:1.6rem;
+
+
+
+}
+
+
 img{
     width: 30px;
     height: auto;
@@ -6,6 +30,7 @@ img{
 body{
     margin:0px;
     padding: 0px;
+    background-color: var(--background-color);
 
 }
 
@@ -13,6 +38,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap:10px;
 
     width: 100vw;
     height: 100vh;
@@ -24,18 +50,110 @@ body{
     height: 15%;
     display: grid;
     grid-template-columns: repeat(3,1fr);
-
+    background-color: var(--header-background-color);
+    font-size: var(--header-font-size);
+    color: var(--header-text-color);
+    align-items: center;
+   
 }
 
-.player{
+.linkdin,
+.github{
 
+    margin:0px 15px;
+    display: flex;
+    align-items: center;
+    gap:10px;
+}
+
+.github{
+    justify-self: end;
+}
+.header img{
+    width: 45px;
+    height: auto;
+}
+
+.header .title{
+    font-family: var(--font-logo);
+    font-size: var(--header-logo-size);
+    align-self: center;
+    justify-self: center;
+}
+
+.header,
+.player>.left,
+.player>.right{
+    box-shadow: 2px 3px 10px 1px gray;
+}
+
+
+/* player style */
+.player{
+    box-sizing: border-box;
     width: 100%;
-    height: 10%;
     display: grid;
     grid-template-columns: repeat(2,1fr);
+    justify-items: center;
+    align-items: center;
+    color: var(--header-background-color);
+    font-size: var(--player-font-size);
+    font-family: var(--rest-font);
+    font-weight: bold;
+    margin-bottom:20px;
+    
+    gap:50px;
+
 
 
 }
+.player .left,
+.player .right{
+    display: grid;
+    grid-template-columns: 65px 1fr;
+    grid-template-rows: 30px 30px;
+    background-color: var(--header-text-color);
+    width: 40%;
+    padding: 0px 15px;
+    border:  3px solid transparent;
+    border-radius: 30px;
+
+}
+
+.player .name{
+    grid-row-start: 1;
+    grid-column: 2 / -1;
+    align-self: center;
+    margin-left:10px;
+
+
+}
+
+.player span{
+    display: block;
+    margin-left:10px;
+    font-size: var(--dialog-font-size-button);
+    font-family: var(--font-logo);
+    grid-row: 2/-1;
+    align-self: center;
+
+
+
+}
+
+#playerShow{
+    fill:var(--header-background-color);
+    width: 60px;
+    height: auto;
+    grid-column-start: 1;
+    grid-row: 1/-1;
+    align-self: center;
+    justify-self: center;
+}
+
+
+/* grid boxes */
+
 
 .battleGrid{
     width: 40%;
@@ -43,8 +161,18 @@ body{
     display: grid;
     grid-template-columns: repeat(3,1fr);
     grid-template-rows: repeat(3,1fr);
-    gap:10px;
+    border: 3px solid var(--header-background-color);
 }
+
+.battleGrid>button{
+    border: 3px solid var(--header-background-color);
+    color:var(--header-text-color);
+    font-size: calc(var(--button-font-size)*1.5);
+    font-weight: bold;
+    color: var(--header-background-color);
+}
+
+
 
 
 
